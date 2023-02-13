@@ -1,3 +1,4 @@
+
 // SCROLL ANIMATION 
 AOS.init();
 
@@ -30,17 +31,41 @@ window.onclick = () => {
 document.querySelector("#send").onclick = () => {
     event.preventDefault()
 
-    let params = {
-        name : document.querySelector("#fullName") , 
-        email : document.querySelector("#email"), 
-        subject : document.querySelector("#subject"),
-        message : document.querySelector("#message")
+    const name  = document.querySelector("#fullName") 
+    const email = document.querySelector("#email")
+    const subject =document.querySelector("#subject")
+    const message = document.querySelector("#message")
+
+    if(name.value == ""){
+        Swal.fire("Empty Name")
+        return
+    }else if(email.vaue == ""){
+        Swal.fire("Empty Email")
+        return
+    }else {
+        emailjs.init('QRewmKub85EX_6kBl');
+        emailjs.send("service_hshdeqy","template_5ast1wu",{
+            name: name.value,
+            email: email.value,
+            subject: subject.value,
+            message: message.value,
+        }).then((result) => {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'I will text you soon',
+                showConfirmButton: false,
+                timer: 1500
+              })
+          }, (error) => {
+              console.log(error.text);
+          });
     }
-    
-    params.name.value = ""
-    params.email.value = ""
-    params.subject.value = ""
-    params.message.value = ""
+    name.value = ""
+    email.value = ""
+    subject.value = ""
+    message.value = ""
+
 
 
 }
